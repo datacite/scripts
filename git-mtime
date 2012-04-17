@@ -1,0 +1,9 @@
+#!/bin/bash
+for FILE in $(git ls-files); do
+    TIME=$(git log --pretty=format:%cd -n 1 --date=iso $FILE)
+    if [ $? -gt 0 ]; then
+      echo abort;
+      exit 1;
+    fi
+    touch -m -d "$TIME" $FILE
+done
