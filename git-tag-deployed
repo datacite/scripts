@@ -1,4 +1,14 @@
 #!/bin/bash
-git tag -f deployed-last deployed-current
+function get_rev {
+  git rev-list --max-count=1 $1 2>/dev/null
+}
+
+head=`get_rev HEAD`
+current=`get_rev deployed-current`
+
+if [ -n "$current" -a "$head" != "$current" ]; then
+  git tag -f deployed-last deployed-current
+fi
+
 git tag deployed-`date +%Y%m%d_%H%M%S`
 git tag -f deployed-current
