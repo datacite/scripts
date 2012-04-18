@@ -1,0 +1,3 @@
+#!/bin/bash
+sudo cp -v bin/* /usr/local/bin
+bin/git-tag-deployed
