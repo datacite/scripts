@@ -1,0 +1,21 @@
+#!/bin/bash
+function get_tags {
+  git show-ref --tags | grep "$1" | sed -e "s|^.* refs/tags/\(.*\)|\1|"
+}
+
+rev=$1
+[ -z "$rev" ] && rev=deployed-current
+commit=$(git rev-parse $rev)
+[ $? -ne 0 ] && exit 1
+
+subject=$(git show -s --format="%s" $commit)
+deployed=$(get_tags $commit |egrep -v "current|last" |sort |tail -1 |sed -e "s/deployed-//")
+deployed_formatted=$(echo $deployed |sed -e "s/\(....\)\(..\)\(..\)_\(..\)\(..\)\(..\)/\1-\2-\3 \4:\5:\6/")
+committed=$(git show -s --format="%ci" $commit)
+remote_branches=$(git branch -r --contains $commit)
+
+echo "commit:    $commit"
+echo "subject:   $subject"
+echo "committed: $committed"
+echo "deployed:  $deployed_formatted"
+#echo "branches:  $remote_branches"
