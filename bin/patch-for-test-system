@@ -1,0 +1,8 @@
+#!/bin/bash
+sed -e "s|data.datacite.org|test.datacite.org/data|g" \
+    -e "s|mds.datacite.org|test.datacite.org/mds|g" \
+    -e "s|oai.datacite.org|test.datacite.org/oaip|g" \
+    -e "s|schema.datacite.org|test.datacite.org/schema|g" \
+    -e "s|search.datacite.org|test.datacite.org/search|g" \
+    -e "s|stats.datacite.org|test.datacite.org/stats|g" \
+    -i $@
