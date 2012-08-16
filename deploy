@@ -1,3 +1,4 @@
 #!/bin/bash
 sudo cp -v bin/* /usr/local/bin
+sudo cp -v init.d/hdl-server /etc/init.d
 bin/git-tag-deployed
