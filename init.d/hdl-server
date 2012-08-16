@@ -21,13 +21,10 @@
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 DESC="Handle Server"
 NAME=hdl-server
-DAEMON=/opt/hsj-7.0/bin/hdl-server
-DAEMON_ARGS="/srv/handle"
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
-
-# Exit if the package is not installed
-[ -x "$DAEMON" ] || exit 0
+HSJ_DIR=/opt/hsj
+SERVER_DIR=/srv/handle
 
 # Read configuration variable file if it is present
 [ -r /etc/default/$NAME ] && . /etc/default/$NAME
@@ -39,11 +36,20 @@ SCRIPTNAME=/etc/init.d/$NAME
 # Depend on lsb-base (>= 3.0-6) to ensure that this file is present.
 . /lib/lsb/init-functions
 
+DAEMON=$HSJ_DIR/bin/hdl-server
+DAEMON_ARGS=$SERVER_DIR
+
 #
 # Function that starts the daemon/service
 #
 do_start()
 {
+	# Exit if the package is not installed
+	if [ ! -x "$DAEMON" ]; then
+		log_failure_msg "cannot execute $DAEMON"
+		return 2
+	fi
+
 	# Return
 	#   0 if daemon has been started
 	#   1 if daemon was already running

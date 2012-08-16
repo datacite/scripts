@@ -1,0 +1,5 @@
+# root path of handle server library 
+#HSJ_DIR=/opt/hsj
+
+# directory of server instance
+#SERVER_DIR=/srv/handle
