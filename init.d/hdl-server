@@ -23,11 +23,6 @@ DESC="Handle Server"
 NAME=`basename $0`
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
-HSJ_DIR=/opt/hsj
-SERVER_DIR=/srv/handle
-
-# Read configuration variable file if it is present
-[ -r /etc/default/$NAME ] && . /etc/default/$NAME
 
 # Load the VERBOSE setting and other rcS variables
 . /lib/init/vars.sh
@@ -35,6 +30,13 @@ SERVER_DIR=/srv/handle
 # Define LSB log_* functions.
 # Depend on lsb-base (>= 3.0-6) to ensure that this file is present.
 . /lib/lsb/init-functions
+
+# Read configuration variable file if it is present or exit
+if [ ! -r /etc/default/$NAME ]; then
+        log_failure_msg "cannot find configuration"
+        return 2
+fi
+. /etc/default/$NAME
 
 DAEMON=$HSJ_DIR/bin/hdl-server
 DAEMON_ARGS=$SERVER_DIR
