@@ -1,0 +1,11 @@
+#!/bin/bash
+sql_tib="SELECT minted, symbol, doi FROM datacite.dataset AS d
+  JOIN datacite.datacentre as dc 
+  WHERE dc.id = d.datacentre 
+    AND minted IS NOT NULL 
+    AND doi not like '10.5072/%'"
+sql_eth="SELECT FROM_UNIXTIME(timestamp), 'ETH', handle
+  FROM handle_eth_replica.handles 
+  WHERE type = 'HS_ADMIN'"
+
+mysql $@ --skip-column-names -e "$sql_tib; $sql_eth" | sort | nl -w 7

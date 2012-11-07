@@ -1,0 +1,5 @@
+#!/bin/bash
+echo "||Milestone||Date||Datacentre||DOI||"
+sed -e 's/^\([0-9]\)\(...\)/\1,\2,/' \
+    -e 's/^ \(..[0-9]\)/\1,/'  \
+    -e 's/^ *\|\t\|$/|/g'
