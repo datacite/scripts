@@ -1,4 +1,5 @@
-scripts to count DOIs and get and format DOI milestones. 
+Scripts to count DOIs and get and format DOI milestones.
+Shell variable `DATACITE_MYSQL` shall contain the mysql connection parameter.
 
 Usage: 
 

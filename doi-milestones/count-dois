@@ -6,7 +6,7 @@ for server in $servers; do
   sql="SELECT UPPER('${server}'), COUNT(*), FROM_UNIXTIME(MAX(timestamp))
        FROM handle_${server}_replica.handles 
        WHERE type = 'HS_ADMIN'"
-  response=`mysql $@ --skip-column-names --batch -e "$sql"`
+  response=`mysql $DATACITE_MYSQL --skip-column-names --batch -e "$sql"`
   echo "$response"
   count=`echo "$response" | cut -f 2`
   let "total += count"

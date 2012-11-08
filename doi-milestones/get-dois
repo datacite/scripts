@@ -8,4 +8,4 @@ sql_eth="SELECT FROM_UNIXTIME(timestamp), 'ETH', handle
   FROM handle_eth_replica.handles 
   WHERE type = 'HS_ADMIN'"
 
-mysql $@ --skip-column-names -e "$sql_tib; $sql_eth" | sort | nl -w 7
+mysql $DATACITE_MYSQL --skip-column-names -e "$sql_tib; $sql_eth" | sort | nl -w 7
