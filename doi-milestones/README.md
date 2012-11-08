@@ -3,8 +3,8 @@ Shell variable `DATACITE_MYSQL` shall contain the mysql connection parameter.
 
 Usage: 
 
-    get-dois <mysql options> | grep-milestones | wiki-format-milestones
-    count-dois <mysql options>
+    count-dois 
+    get-dois | grep-milestones | wiki-format-milestones
 
 Notes: 
   
