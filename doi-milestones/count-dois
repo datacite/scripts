@@ -1,15 +1,24 @@
 #!/bin/bash
 servers="tib eth"
+
+vecho=":"
+while getopts "v" opt; do
+  case $opt in
+    v) vecho=echo;;
+  esac
+done
+
 total=0
-echo -e "Server\tDOIs\tLast Creation"
+$vecho -e "Server\tDOIs\tLast Creation"
 for server in $servers; do
   sql="SELECT UPPER('${server}'), COUNT(*), FROM_UNIXTIME(MAX(timestamp))
        FROM handle_${server}_replica.handles 
        WHERE type = 'HS_ADMIN'"
   response=`mysql $DATACITE_MYSQL --skip-column-names --batch -e "$sql"`
-  echo "$response"
+  $vecho "$response"
   count=`echo "$response" | cut -f 2`
   let "total += count"
 done
-echo -e "-------\t-------"
-echo -e "total\t$total"
+$vecho -e "-------\t-------"
+$vecho -e -n "total\t"
+echo $total
