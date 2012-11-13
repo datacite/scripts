@@ -1,0 +1,1 @@
+mysql $DATACITE_MYSQL -N -e "SELECT doi FROM datacite.dataset WHERE minted IS NOT NULL" | egrep -v "^10.5072" | sort

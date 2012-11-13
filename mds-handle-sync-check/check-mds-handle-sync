@@ -1,0 +1,7 @@
+#!/bin/bash
+mds=`mktemp --tmpdir dois.mds.XXXXXX`
+handle=`mktemp --tmpdir dois.handle.XXXXXX`
+set -x
+./get-dois-from-mds > $mds
+./get-dois-from-handle > $handle
+diff $mds $handle
