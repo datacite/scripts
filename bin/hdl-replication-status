@@ -2,10 +2,13 @@
 use strict;
 use feature qw/say/;
 use DateTime;
+use Pod::Usage;
 
-my $dir = $ARGV[0] || ".";
+my $dir = shift || pod2usage("missing server configuration directory");
+shift && pod2usage("too many arguments");
+
 my $file = "$dir/txnstat.dct";
-die "file does not exist: $file" unless -e $file;
+die "invalid server configuration directory: $dir" unless -e $file;
 open FILE, $file;
 
 say "server\tlast_timestamp\tlast_txn_id";
@@ -19,4 +22,14 @@ while (<FILE>) {
 sub conv_tst() {
   return DateTime->from_epoch(epoch => $_[0]);
 }
- 
+
+__END__
+
+=head1 NAME
+
+  hdl-replication-status - show replication status of a handle server
+
+=head1 SYNOPSIS
+
+  hdl-replication-status <dir>
+
