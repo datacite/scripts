@@ -1,0 +1,22 @@
+#!/usr/bin/perl
+use strict;
+use feature qw/say/;
+use DateTime;
+
+my $dir = $ARGV[0] || ".";
+my $file = "$dir/txnstat.dct";
+die "file does not exist: $file" unless -e $file;
+open FILE, $file;
+
+say "server\tlast_timestamp\tlast_txn_id";
+while (<FILE>) {
+  chomp;
+  print "$1\t" if (/"(.*)" = \(/);
+  print conv_tst($1)."\t" if (/"last_timestamp" = "(.*)[0-9]{3}"/);
+  print "$1\n" if (/"last_txn_id" = "(.*)"/);
+}
+
+sub conv_tst() {
+  return DateTime->from_epoch(epoch => $_[0]);
+}
+ 
