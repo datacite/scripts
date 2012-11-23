@@ -1,0 +1,24 @@
+#!/bin/bash
+if [ $# -ne 1 ]; then
+  echo "usage: $0 <remote-name>" 1>&2
+  exit 2
+fi
+
+name=$1
+addfetch="+refs/tags/*:refs/tags/$name/*"
+
+fetches=`git config --get-all remote.$name.fetch`
+if [ $? -ne 0 ]; then
+  echo "no remote '$name' found" 1>&2
+  exit 1
+fi
+
+for fetch in $fetches; do
+  if [ "$fetch" = "$addfetch" ]; then
+    echo "remote '$name' already configured" 1>&2
+    exit 0
+  fi
+done
+
+git config --add remote.$name.fetch $addfetch
+git config remote.$name.tagopt --no-tags
