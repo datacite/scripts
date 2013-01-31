@@ -2,6 +2,7 @@
 sql_tib="SELECT minted, symbol, doi FROM datacite.dataset AS d
   JOIN datacite.datacentre as dc 
   WHERE dc.id = d.datacentre 
+    AND dc.symbol not like 'ETHZ.%'
     AND minted IS NOT NULL 
     AND doi not like '10.5072/%'"
 sql_eth="SELECT FROM_UNIXTIME(timestamp), 'ETH', handle
