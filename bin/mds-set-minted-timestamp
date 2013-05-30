@@ -6,7 +6,7 @@ sql="
     ( SELECT handle, FROM_UNIXTIME(MIN(timestamp)) as minted 
       FROM $hdl_db.handles GROUP BY handle
     ) as hdl
-  SET mds.minted = hdl.minted 
+  SET mds.minted = hdl.minted, mds.updated = NOW()
   WHERE mds.doi = hdl.handle 
     AND mds.minted IS NULL;
 
