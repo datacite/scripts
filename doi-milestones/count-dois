@@ -13,7 +13,8 @@ $vecho -e "Server\tDOIs\tLast Creation"
 for server in $servers; do
   sql="SELECT UPPER('${server}'), COUNT(*), FROM_UNIXTIME(MAX(timestamp))
        FROM handle_${server}_replica.handles 
-       WHERE type = 'HS_ADMIN'"
+       WHERE type = 'HS_ADMIN'
+         AND handle not like '10.5072/%'"
   response=`mysql $DATACITE_MYSQL --skip-column-names --batch -e "$sql"`
   $vecho "$response"
   count=`echo "$response" | cut -f 2`

@@ -1,1 +1,4 @@
-mysql $DATACITE_MYSQL -N -e "SELECT handle FROM handle_tib_replica.handles GROUP BY handle" | egrep -v "^10.5072" | sort
+mysql $DATACITE_MYSQL -N -e "
+  SELECT handle FROM handle_tib_replica.handles GROUP BY handle;
+  SELECT handle FROM handle_eth_replica.handles GROUP BY handle;
+" | egrep -v "^10.5072" | sort
