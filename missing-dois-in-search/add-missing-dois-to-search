@@ -11,5 +11,5 @@ echo -n "getting DOIs from handle ... "
 wc -l < $handle
 
 echo -n "uploading to solr ... "
-./create-solr-update $handle $search | upload-to-solr
+./create-solr-update $handle $search | ./upload-to-solr
 rm -f $search $handle
