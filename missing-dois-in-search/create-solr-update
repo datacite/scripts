@@ -19,10 +19,10 @@ while (<HANDLE>) {
     allocator_symbol => "ETHZ",
     allocator => "ETHZ - ETH Zurich",
     datacentre_symbol => "ETHZ.UNKNOWN",
-    datacentre => "ETHZ.UNKNOWN - not assinged to a specific ETHZ datacentre",
+    datacentre => "ETHZ.UNKNOWN - not assigned to a specific ETHZ datacentre",
     dataset_id => "dummy-$doi",
     has_metadata => "false",
-    is_active => "true"
+    has_media => "false"
   }
 }
 close SOLR;
