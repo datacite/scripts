@@ -1,0 +1,15 @@
+#!/bin/bash
+search=`mktemp --tmpdir dois.search.XXXXXX`
+handle=`mktemp --tmpdir dois.handle.XXXXXX`
+
+echo -n "getting DOIs from search ... "
+./get-dois-from-search > $search
+wc -l < $search
+
+echo -n "getting DOIs from handle ... "
+./get-dois-from-handle > $handle
+wc -l < $handle
+
+echo -n "uploading to solr ... "
+./create-solr-update $handle $search | upload-to-solr
+rm -f $search $handle
