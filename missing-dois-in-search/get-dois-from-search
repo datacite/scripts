@@ -1,0 +1,1 @@
+curl -s "$SOLR_URL/api?q=*&fq=allocator_symbol:ETHZ&rows=9999999&fl=doi&wt=csv&csv.header=false" |sort

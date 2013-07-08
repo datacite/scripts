@@ -1,0 +1,41 @@
+#!/usr/bin/perl
+use strict;
+use feature "say";
+use JSON;
+
+my %dois;
+
+open HANDLE, $ARGV[0];
+while (<HANDLE>) {
+  chomp;
+  my ($doi, $timestamp) = split "\t";
+  $timestamp =~ s/ /T/;
+  $timestamp .= "Z";
+  my ($prefix) = split "/",$doi;
+  $dois{$doi} = {
+    doi => $doi,
+    prefix => $prefix,
+    minted => $timestamp,
+    allocator_symbol => "ETHZ",
+    allocator => "ETHZ - ETH Zurich",
+    datacentre_symbol => "ETHZ.UNKNOWN",
+    datacentre => "ETHZ.UNKNOWN - not assinged to a specific ETHZ datacentre",
+    dataset_id => "dummy-$doi",
+    has_metadata => "false",
+    is_active => "true"
+  }
+}
+close SOLR;
+
+open SEARCH, $ARGV[1];
+while (<SEARCH>) {
+  chomp;
+  delete $dois{$_};
+}
+
+#say 1*keys(%dois);
+
+my @solr = values %dois;
+
+say to_json \@solr;
+
