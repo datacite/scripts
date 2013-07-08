@@ -1,0 +1,1 @@
+mysqldump $DATACITE_MYSQL $@
