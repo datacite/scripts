@@ -21,6 +21,7 @@ while (<HANDLE>) {
     datacentre_symbol => "ETHZ.UNKNOWN",
     datacentre => "ETHZ.UNKNOWN - not assigned to a specific ETHZ datacentre",
     dataset_id => "dummy-$doi",
+    is_active => "true",
     has_metadata => "false",
     has_media => "false"
   }
