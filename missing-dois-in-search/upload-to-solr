@@ -1,1 +1,1 @@
-curl "$SOLR_URL/update/json?commit=true" -H 'Content-type:application/json' --data-binary @-
+curl -s "$SOLR_URL/update/json?commit=true" -H 'Content-type:application/json' --data-binary @-
