@@ -4,8 +4,6 @@ use feature "say";
 use JSON;
 use Tie::IxHash;
 
-
-
 my %dois;
 my $symbol = "ETHZ.UNKNOWN",
 
@@ -13,6 +11,7 @@ open HANDLE, $ARGV[0];
 while (<HANDLE>) {
   chomp;
   my ($doi, $timestamp) = split "\t";
+  $doi =~ tr/a-z/A-Z/;
   $timestamp =~ s/ /T/;
   $timestamp .= "Z";
   my ($prefix) = split "/",$doi;
@@ -35,6 +34,7 @@ close HANDLE;
 open SEARCH, $ARGV[1];
 while (<SEARCH>) {
   chomp;
+  tr/a-z/A-Z/;
   delete $dois{$_};
 }
 close SEARCH;
