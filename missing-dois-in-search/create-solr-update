@@ -2,8 +2,12 @@
 use strict;
 use feature "say";
 use JSON;
+use Tie::IxHash;
+
+
 
 my %dois;
+my $symbol = "ETHZ.UNKNOWN",
 
 open HANDLE, $ARGV[0];
 while (<HANDLE>) {
@@ -18,25 +22,28 @@ while (<HANDLE>) {
     minted => $timestamp,
     allocator_symbol => "ETHZ",
     allocator => "ETHZ - ETH Zurich",
-    datacentre_symbol => "ETHZ.UNKNOWN",
-    datacentre => "ETHZ.UNKNOWN - not assigned to a specific ETHZ datacentre",
+    datacentre_symbol => "$symbol",
+    datacentre => "$symbol - not assigned to a specific ETHZ datacentre",
     dataset_id => "dummy-$doi",
     is_active => "true",
     has_metadata => "false",
     has_media => "false"
   }
 }
-close SOLR;
+close HANDLE;
 
 open SEARCH, $ARGV[1];
 while (<SEARCH>) {
   chomp;
   delete $dois{$_};
 }
+close SEARCH;
 
-#say 1*keys(%dois);
+my @dois = values %dois;
 
-my @solr = values %dois;
+tie my %solr, 'Tie::IxHash';
+$solr{delete} = { query => "datacentre_symbol:$symbol" };
+$solr{add} = \@dois;
 
-say to_json \@solr;
+say to_json \%solr;
 
