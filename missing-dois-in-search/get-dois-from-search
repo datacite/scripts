@@ -1,1 +1,1 @@
-curl -s "$SOLR_URL/public/api?q=*&fq=allocator_symbol:ETHZ&rows=9999999&fl=doi&wt=csv&csv.header=false" | tr a-z A-Z | sort
+curl -s "$SOLR_URL/public/api?q=*&fq=allocator_symbol:ETHZ&fq=-datacentre_symbol:ETHZ.UNKNOWN&rows=9999999&fl=doi&wt=csv&csv.header=false" | tr a-z A-Z | sort
