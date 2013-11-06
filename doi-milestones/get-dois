@@ -1,12 +1,2 @@
 #!/bin/bash
-sql_tib="SELECT minted, symbol, doi FROM datacite.dataset AS d
-  JOIN datacite.datacentre as dc 
-  WHERE dc.id = d.datacentre 
-    AND dc.symbol not like 'ETHZ.%'
-    AND minted IS NOT NULL 
-    AND doi not like '10.5072/%'"
-sql_eth="SELECT FROM_UNIXTIME(timestamp), 'ETH', handle
-  FROM handle_eth_replica.handles 
-  WHERE type = 'HS_ADMIN'"
-
-mysql $DATACITE_MYSQL --skip-column-names -e "$sql_tib; $sql_eth" | sort | nl -w 7
+curl -s "http://search.datacite.org/api?q=*&fl=minted,datacentre_symbol,doi&wt=csv&csv.header=false&csv.separator=|&rows=9999999" | sort | nl -w 7
