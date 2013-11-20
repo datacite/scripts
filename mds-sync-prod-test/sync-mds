@@ -1,0 +1,5 @@
+echo Getting and importing dump
+mysqldump $DATACITE_PROD_MYSQL datacite prefix allocator datacentre allocator_prefixes datacentre_prefixes | mysql $DATACITE_TEST_MYSQL mds_sync_tmp
+
+echo Insert missing records into MDS
+./generate-sql mds_sync_tmp mds | mysql $DATACITE_TEST_MYSQL -vv | egrep '^(INSERT|Query)' | sed -e 's/(.*//'
