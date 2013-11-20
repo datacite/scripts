@@ -1,0 +1,32 @@
+INSERT INTO $dst.prefix (prefix, created, version)
+SELECT prefix, created, version 
+FROM $src.prefix
+WHERE prefix NOT IN (SELECT prefix FROM $dst.prefix);
+
+INSERT INTO $dst.allocator (contact_email, contact_name, created, doi_quota_allowed, doi_quota_used, is_active, name, password, role_name, symbol, updated, version, comments, experiments)
+SELECT contact_email, contact_name, created, doi_quota_allowed, doi_quota_used, is_active, name, password, role_name, symbol, updated, version, comments, experiments
+FROM $src.allocator
+WHERE symbol NOT IN (SELECT symbol FROM $dst.allocator);
+
+INSERT INTO $dst.datacentre (comments, contact_email, contact_name, created, doi_quota_allowed, doi_quota_used, domains, is_active, name, password, role_name, symbol, updated, version, allocator, experiments)
+SELECT comments, contact_email, contact_name, created, doi_quota_allowed, doi_quota_used, domains, is_active, name, password, role_name, symbol, updated, version, allocator, experiments
+FROM $src.datacentre
+WHERE symbol NOT IN (SELECT symbol FROM $dst.datacentre);
+
+INSERT INTO $dst.allocator_prefixes (allocator, prefixes)
+SELECT a_dst.id, p_dst.id FROM $src.allocator_prefixes AS ap_src
+JOIN $src.allocator AS a_src ON ap_src.allocator = a_src.id
+JOIN $src.prefix AS p_src ON ap_src.prefixes = p_src.id
+JOIN $dst.allocator AS a_dst ON a_dst.symbol = a_src.symbol
+JOIN $dst.prefix AS p_dst ON p_dst.prefix = p_src.prefix
+WHERE (a_dst.id, p_dst.id) NOT IN (SELECT allocator, prefixes FROM $dst.allocator_prefixes);
+
+INSERT INTO $dst.datacentre_prefixes (datacentre, prefixes)
+SELECT d_dst.id, p_dst.id FROM $src.datacentre_prefixes AS dp_src
+JOIN $src.datacentre AS d_src ON dp_src.datacentre = d_src.id
+JOIN $src.prefix AS p_src ON dp_src.prefixes = p_src.id
+JOIN $dst.datacentre AS d_dst ON d_dst.symbol = d_src.symbol
+JOIN $dst.prefix AS p_dst ON p_dst.prefix = p_src.prefix
+WHERE (d_dst.id, p_dst.id) NOT IN (SELECT datacentre, prefixes FROM $dst.datacentre_prefixes);
+
+
