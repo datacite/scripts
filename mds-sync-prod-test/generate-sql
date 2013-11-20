@@ -1,3 +1,8 @@
+src=$1
+dst=$2
+
+cat << __EOF__
+
 INSERT INTO $dst.prefix (prefix, created, version)
 SELECT prefix, created, version 
 FROM $src.prefix
@@ -29,4 +34,4 @@ JOIN $dst.datacentre AS d_dst ON d_dst.symbol = d_src.symbol
 JOIN $dst.prefix AS p_dst ON p_dst.prefix = p_src.prefix
 WHERE (d_dst.id, p_dst.id) NOT IN (SELECT datacentre, prefixes FROM $dst.datacentre_prefixes);
 
-
+__EOF__
