@@ -20,9 +20,9 @@
 # PATH should only include /usr/* if it runs after the mountnfs.sh script
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 DESC="Handle Server"
-NAME=`basename $0`
+SCRIPTNAME=`readlink -f $0`
+NAME=`basename $SCRIPTNAME`
 PIDFILE=/var/run/$NAME.pid
-SCRIPTNAME=/etc/init.d/$NAME
 
 # Load the VERBOSE setting and other rcS variables
 . /lib/init/vars.sh
