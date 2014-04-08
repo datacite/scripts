@@ -4,17 +4,17 @@ dst=$2
 cat << __EOF__
 
 INSERT INTO $dst.prefix (prefix, created, version)
-SELECT prefix, created, version 
+SELECT prefix, NOW(), version 
 FROM $src.prefix
 WHERE prefix NOT IN (SELECT prefix FROM $dst.prefix);
 
 INSERT INTO $dst.allocator (contact_email, contact_name, created, doi_quota_allowed, doi_quota_used, is_active, name, password, role_name, symbol, updated, version, comments, experiments)
-SELECT contact_email, contact_name, created, doi_quota_allowed, doi_quota_used, is_active, name, password, role_name, symbol, updated, version, comments, experiments
+SELECT contact_email, contact_name, NOW(), doi_quota_allowed, doi_quota_used, is_active, name, password, role_name, symbol, NOW(), version, comments, experiments
 FROM $src.allocator
 WHERE symbol NOT IN (SELECT symbol FROM $dst.allocator);
 
 INSERT INTO $dst.datacentre (comments, contact_email, contact_name, created, doi_quota_allowed, doi_quota_used, domains, is_active, name, password, role_name, symbol, updated, version, allocator, experiments)
-SELECT comments, contact_email, contact_name, created, doi_quota_allowed, doi_quota_used, domains, is_active, name, password, role_name, symbol, updated, version, allocator, experiments
+SELECT comments, contact_email, contact_name, NOW(), doi_quota_allowed, doi_quota_used, domains, is_active, name, password, role_name, symbol, NOW(), version, allocator, experiments
 FROM $src.datacentre
 WHERE symbol NOT IN (SELECT symbol FROM $dst.datacentre);
 
