@@ -14,9 +14,11 @@ FROM $src.allocator
 WHERE symbol NOT IN (SELECT symbol FROM $dst.allocator);
 
 INSERT INTO $dst.datacentre (comments, contact_email, contact_name, created, doi_quota_allowed, doi_quota_used, domains, is_active, name, password, role_name, symbol, updated, version, allocator, experiments)
-SELECT comments, contact_email, contact_name, NOW(), doi_quota_allowed, doi_quota_used, domains, is_active, name, password, role_name, symbol, NOW(), version, allocator, experiments
-FROM $src.datacentre
-WHERE symbol NOT IN (SELECT symbol FROM $dst.datacentre);
+SELECT d_src.comments, d_src.contact_email, d_src.contact_name, NOW(), d_src.doi_quota_allowed, d_src.doi_quota_used, d_src.domains, d_src.is_active, d_src.name, d_src.password, d_src.role_name, d_src.symbol, NOW(), d_src.version, a_dst.id, d_src.experiments
+FROM $src.datacentre AS d_src
+JOIN $src.allocator AS a_src ON d_src.allocator = a_src.id
+JOIN $dst.allocator AS a_dst ON a_dst.symbol = a_src.symbol
+WHERE d_src.symbol NOT IN (SELECT symbol FROM $dst.datacentre);
 
 INSERT INTO $dst.allocator_prefixes (allocator, prefixes)
 SELECT a_dst.id, p_dst.id FROM $src.allocator_prefixes AS ap_src
