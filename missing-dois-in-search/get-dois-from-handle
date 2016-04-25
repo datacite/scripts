@@ -1,1 +1,1 @@
-mysql $DATACITE_MYSQL -N -e "SELECT handle, FROM_UNIXTIME(MIN(timestamp)) FROM handle_eth_replica.handles GROUP BY handle" | tr a-z A-Z | sort
+mysql $DATACITE_MYSQL -N -e "SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED; SELECT handle, FROM_UNIXTIME(MIN(timestamp)) FROM handle_eth_replica.handles GROUP BY handle;" | tr a-z A-Z | sort
